@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.entities.Pessoa;
@@ -40,7 +41,24 @@ public class PessoaRepository implements BaseRepository {
 
 	@Override
 	public boolean excluir(int id) {
-		return false;
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		boolean excluido = false;
+		
+		String query = "DELETE FROM pessoa WHERE ID = " + id;
+		
+		try {
+			if(stmt.executeUpdate(query) == 1) {
+				excluido = true;
+			}
+		} catch (SQLException erro) {
+			System.out.println("erro ao executar excluir()");
+			System.out.println("erro: " + erro.getMessage());
+		} finally {
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		return excluido;
 	}
 
 	@Override
@@ -54,14 +72,67 @@ public class PessoaRepository implements BaseRepository {
 	}
 
 	@Override
-	public ArrayList consultarTodos() {
-		return null;
+	public ArrayList<Pessoa> consultarTodos() {
+		ArrayList<Pessoa> pessoas = new ArrayList<>();
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+
+		String query = "SELECT * FROM pessoa";
+
+		try {
+			resultado = stmt.executeQuery(query);
+			while (resultado.next()) {
+				Pessoa pessoa = new Pessoa();
+				pessoa.setId(Integer.parseInt(resultado.getString("ID")));
+				pessoa.setNome(resultado.getString("NOME"));
+				pessoa.setDataNascimento(resultado.getDate("DATA_NASCIMENTO").toLocalDate());
+				pessoa.setSexo(resultado.getString("SEXO"));
+				pessoa.setCpf(resultado.getString("CPF"));
+				pessoa.setTipo(resultado.getString("TIPO"));
+				pessoas.add(pessoa);
+			}
+		} catch (SQLException erro) {
+			System.out.println("erro ao executar consultarTodo()");
+			System.out.println("erro: " + erro.getMessage());
+		} finally {
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+
+		return pessoas;
 	}
 
 	@Override
 	public Object salvar(Object novaEntidade) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public boolean verificarCpf(Pessoa pessoa) {
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+		boolean retorno = false;
+		
+		String query = "SELECT cpf FROM pessoa WHERE cpf = '" + pessoa.getCpf() + "'";
+		
+		try {
+			resultado = stmt.executeQuery(query);
+			if(resultado.next()) {
+				retorno = true;
+			}
+		} catch (SQLException erro) {
+			System.out.println("erro ao executar verificarCpf(");
+			System.out.println("erro: " + erro.getMessage());
+		} finally {
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		
+		return retorno;
 	}
 
 }
