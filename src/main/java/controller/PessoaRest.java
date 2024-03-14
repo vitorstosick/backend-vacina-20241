@@ -2,7 +2,7 @@ package controller;
 
 import java.util.List;
 
-import exception.PessoaException;
+import exception.ControleVacinasException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -23,7 +23,7 @@ public class PessoaRest {
 	@Path("/cadastrar")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Pessoa salvar(Pessoa novaPessoa) throws PessoaException {
+	public Pessoa salvar(Pessoa novaPessoa) throws ControleVacinasException {
 		return service.salvar(novaPessoa);
 	}
 	

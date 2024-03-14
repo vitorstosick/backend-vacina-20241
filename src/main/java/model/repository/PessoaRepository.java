@@ -15,7 +15,7 @@ public class PessoaRepository implements BaseRepository {
 	public Pessoa salvar(Pessoa novaPessoa) {
 		String query = "INSERT INTO pessoa (nome, data_nascimento, sexo, cpf, tipo) VALUES (?, ?, ?, ?, ?)";
 		Connection conn = Banco.getConnection();
-		PreparedStatement ptsmt = Banco.getPreparedStatement(conn, query);
+		PreparedStatement ptsmt = Banco.getPreparedStatementWithPk(conn, query);
 		try {
 			ptsmt.setString(1, novaPessoa.getNome());
 			ptsmt.setObject(2, novaPessoa.getDataNascimento());

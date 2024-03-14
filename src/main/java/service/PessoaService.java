@@ -1,6 +1,6 @@
 package service;
 
-import exception.PessoaException;
+import exception.ControleVacinasException;
 import model.entities.Pessoa;
 import model.repository.PessoaRepository;
 import java.util.ArrayList;
@@ -9,14 +9,14 @@ public class PessoaService {
 
 	private PessoaRepository pessoaRepository = new PessoaRepository();
 
-	public Pessoa salvar(Pessoa entity) throws PessoaException {
+	public Pessoa salvar(Pessoa entity) throws ControleVacinasException {
 
 		if (entity.getNome() != null && !entity.getNome().isEmpty() && entity.getDataNascimento() != null
 				&& entity.getSexo() != null && !entity.getSexo().isEmpty() && entity.getCpf() != null
 				&& !entity.getCpf().isEmpty() && entity.getTipo() != null && !entity.getTipo().isEmpty()) {
 
 			if (pessoaRepository.verificarCpf(entity)) {
-				throw new PessoaException("CPF JÁ CADASTRO NO BANCO DE DADOS!");
+				throw new ControleVacinasException("Erro ao cadastrar: CPF já cadastrado!");
 
 			} else {
 				pessoaRepository.salvar(entity);
@@ -24,8 +24,7 @@ public class PessoaService {
 			}
 
 		} else {
-
-			throw new PessoaException("UM DOS CAMPOS NÃO ESTÁ PREENCHIDO");
+			throw new ControleVacinasException("Preencha todos os campos!");
 		}
 
 		return entity;
