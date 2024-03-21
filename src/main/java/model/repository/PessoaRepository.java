@@ -14,7 +14,7 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 
 	@Override
 	public Pessoa salvar(Pessoa novaPessoa) {
-		String query = "INSERT INTO pessoas (nome, data_nascimento, sexo, cpf, tipo) VALUES (?, ?, ?, ?, ?)";
+		String query = "INSERT INTO pessoa (nome, data_nascimento, sexo, cpf, tipo) VALUES (?, ?, ?, ?, ?)";
 		Connection conn = Banco.getConnection();
 		PreparedStatement ptsmt = Banco.getPreparedStatementWithPk(conn, query);
 		try {
@@ -46,7 +46,7 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 		Statement stmt = Banco.getStatement(conn);
 		boolean excluido = false;
 
-		String query = "DELETE FROM pessoas WHERE id_pessoa = " + id;
+		String query = "DELETE FROM pessoa WHERE id = " + id;
 
 		try {
 			if (stmt.executeUpdate(query) == 1) {
@@ -101,7 +101,7 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 		ResultSet resultado = null;
 		boolean retorno = false;
 
-		String query = "SELECT cpf FROM pessoas WHERE cpf = '" + pessoa.getCpf() + "'";
+		String query = "SELECT cpf FROM pessoa WHERE cpf = '" + pessoa.getCpf() + "'";
 
 		try {
 			resultado = stmt.executeQuery(query);
@@ -127,7 +127,7 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 
 		Pessoa pessoa = null;
 		ResultSet resultado = null;
-		String query = " SELECT * FROM pessoas WHERE id_pessoa = " + id;
+		String query = " SELECT * FROM pessoa WHERE id = " + id;
 
 		try {
 			resultado = stmt.executeQuery(query);
@@ -154,8 +154,8 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 	@Override
 	public boolean alterar(Pessoa pessoaEditada) {
 		boolean alterou = false;
-		String query = " UPDATE pessoas " + " SET nome=?, cpf=?, sexo=?, data_nascimento=?, tipo=? "
-				+ " WHERE id_pessoa=? ";
+		String query = " UPDATE pessoa " + " SET nome=?, cpf=?, sexo=?, data_nascimento=?, tipo=? "
+				+ " WHERE id=? ";
 		Connection conn = Banco.getConnection();
 		PreparedStatement stmt = Banco.getPreparedStatementWithPk(conn, query);
 		try {
