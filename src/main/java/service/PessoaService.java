@@ -13,7 +13,7 @@ public class PessoaService {
 
 		if (entity.getNome() != null && !entity.getNome().isEmpty() && entity.getDataNascimento() != null
 				&& entity.getSexo() != null && !entity.getSexo().isEmpty() && entity.getCpf() != null
-				&& !entity.getCpf().isEmpty() && entity.getTipo() != null && !entity.getTipo().isEmpty()) {
+				&& !entity.getCpf().isEmpty()) {
 
 			if (pessoaRepository.verificarCpf(entity)) {
 				throw new ControleVacinasException("Erro ao cadastrar: CPF já cadastrado!");
@@ -34,9 +34,17 @@ public class PessoaService {
 	public boolean excluir(int id) {
 		return this.pessoaRepository.excluir(id);
 	}
+	
+	public Pessoa consultarPorId(int id) {
+		return this.pessoaRepository.consultarPorId(id);
+	}
 
 	public ArrayList<Pessoa> listarTodos() {
 		return this.pessoaRepository.consultarTodos();
+	}
+	
+	public boolean atualizar(Pessoa pessoaEditada) throws ControleVacinasException {
+		return this.pessoaRepository.alterar(pessoaEditada);
 	}
 
 }
