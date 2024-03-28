@@ -16,7 +16,7 @@ import model.entities.Pessoa;
 import service.PessoaService;
 
 @Path("/pessoa")
-public class PessoaRest {
+public class PessoaController {
 
 	private PessoaService service = new PessoaService();
 	
@@ -29,8 +29,8 @@ public class PessoaRest {
 	}
 	
 	@DELETE
-	@Path("/{id}")
-	public boolean excluir(@PathParam("id") int id) {
+	@Path("excluir/{id}")
+	public boolean excluir(@PathParam("id") int id) throws ControleVacinasException {
 		return service.excluir(id);
 	}
 	

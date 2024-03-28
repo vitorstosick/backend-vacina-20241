@@ -19,6 +19,7 @@ public class VacinaController {
 	private VacinaService service = new VacinaService();
 	
 	@POST
+	@Path("/cadastrar")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Vacina salvar(Vacina novaVacina) {
@@ -43,8 +44,4 @@ public class VacinaController {
 	public boolean atualizar(Vacina vacinaEditada) {
 		return service.atualizar(vacinaEditada);
 	}
-	
-	
-	
-	
 }

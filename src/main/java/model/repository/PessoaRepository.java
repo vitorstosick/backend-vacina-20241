@@ -75,12 +75,12 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 			resultado = stmt.executeQuery(query);
 			while (resultado.next()) {
 				Pessoa pessoa = new Pessoa();
-				pessoa.setId(Integer.parseInt(resultado.getString("ID")));
-				pessoa.setNome(resultado.getString("NOME"));
-				pessoa.setDataNascimento(resultado.getDate("DATA_NASCIMENTO").toLocalDate());
-				pessoa.setSexo(resultado.getString("SEXO"));
-				pessoa.setCpf(resultado.getString("CPF"));
-				pessoa.setTipo(resultado.getInt("TIPO"));
+				pessoa.setId(Integer.parseInt(resultado.getString("id")));
+				pessoa.setNome(resultado.getString("nome"));
+				pessoa.setDataNascimento(resultado.getDate("data_nascimento").toLocalDate());
+				pessoa.setSexo(resultado.getString("sexo"));
+				pessoa.setCpf(resultado.getString("cpf"));
+				pessoa.setTipo(resultado.getInt("tipo"));
 				pessoas.add(pessoa);
 			}
 		} catch (SQLException erro) {
@@ -133,12 +133,12 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 			resultado = stmt.executeQuery(query);
 			if (resultado.next()) {
 				pessoa = new Pessoa();
-				pessoa.setId(resultado.getInt("ID"));
-				pessoa.setNome(resultado.getString("NOME"));
-				pessoa.setCpf(resultado.getString("CPF"));
-				pessoa.setSexo(resultado.getString("SEXO"));
-				pessoa.setDataNascimento(resultado.getDate("DATA_NASCIMENTO").toLocalDate());
-				pessoa.setTipo(resultado.getInt("TIPO"));
+				pessoa.setId(resultado.getInt("id"));
+				pessoa.setNome(resultado.getString("nome"));
+				pessoa.setCpf(resultado.getString("cpf"));
+				pessoa.setSexo(resultado.getString("sexo"));
+				pessoa.setDataNascimento(resultado.getDate("data_nascimento").toLocalDate());
+				pessoa.setTipo(resultado.getInt("tipo"));
 			}
 		} catch (SQLException erro) {
 			System.out.println("Erro ao consultar pessoa com o id: " + id);

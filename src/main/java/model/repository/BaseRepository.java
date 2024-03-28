@@ -15,6 +15,4 @@ public interface BaseRepository<T> {
 	public T consultarPorId(int id);
 
 	public ArrayList<T> consultarTodos();
-
-	Pessoa salvar(Pessoa novaPessoa);
 }

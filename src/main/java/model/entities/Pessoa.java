@@ -10,8 +10,12 @@ public class Pessoa {
 	private String sexo;
 	private String cpf;
 	private int tipo;
+	private Pais paisOrigem;
 
-	public Pessoa(int id, String nome, LocalDate dataNascimento, String sexo, String cpf, int tipo) {
+	// Comentado para evitar confusões durante a prova
+	// private ArrayList<Vacinacao> vacinacoes;
+
+	public Pessoa(int id, String nome, LocalDate dataNascimento, String sexo, String cpf, int tipo, Pais paisOrigem) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -19,8 +23,10 @@ public class Pessoa {
 		this.sexo = sexo;
 		this.cpf = cpf;
 		this.tipo = tipo;
+		this.paisOrigem = paisOrigem;
+		//this.vacinacoes = vacinacoes;
 	}
-	
+
 	public Pessoa() {
 		super();
 	}
@@ -28,11 +34,11 @@ public class Pessoa {
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -71,6 +77,14 @@ public class Pessoa {
 
 	public void setTipo(int tipo) {
 		this.tipo = tipo;
+	}
+
+	public Pais getPaisOrigem() {
+		return paisOrigem;
+	}
+
+	public void setPaisOrigem(Pais paisOrigem) {
+		this.paisOrigem = paisOrigem;
 	}
 
 }
