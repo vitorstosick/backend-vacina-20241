@@ -1,4 +1,4 @@
-package model.entities;
+package model.entity;
 
 import java.time.LocalDate;
 
@@ -8,11 +8,11 @@ public class Vacinacao {
 	private Vacina vacina;
 	private LocalDate dataAplicacao;
 	private int avaliacao;
-
+	
 	public Vacinacao() {
-
+		
 	}
-
+	
 	public Vacinacao(int id, int idPessoa, Vacina vacina, LocalDate dataAplicacao, int avaliacao) {
 		super();
 		this.id = id;

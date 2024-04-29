@@ -1,7 +1,9 @@
 package service;
 
+import java.util.ArrayList;
+
 import exception.ControleVacinasException;
-import model.entities.Pais;
+import model.entity.Pais;
 import model.repository.PaisRepository;
 
 public class PaisService {
@@ -14,5 +16,9 @@ public class PaisService {
 	
 	public Pais consultarPorId(int id) {
 		return repository.consultarPorId(id);
+	}
+	
+	public ArrayList<Pais> consultarTodos() {
+		return repository.consultarTodos();
 	}
 }

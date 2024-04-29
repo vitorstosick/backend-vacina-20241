@@ -2,7 +2,7 @@ package model.repository;
 
 import java.util.ArrayList;
 
-import model.entities.Pessoa;
+import model.entity.Pessoa;
 
 public interface BaseRepository<T> {
 

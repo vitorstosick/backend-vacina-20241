@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import exception.ControleVacinasException;
@@ -12,40 +13,54 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import model.entities.Pessoa;
+import model.entity.Pessoa;
 import service.PessoaService;
 
 @Path("/pessoa")
 public class PessoaController {
-
+	
 	private PessoaService service = new PessoaService();
 	
 	@POST
-	@Path("/cadastrar")
+	@Path("/inserir")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Pessoa salvar(Pessoa novaPessoa) throws ControleVacinasException {
-		return service.salvar(novaPessoa);
+	public Pessoa salvar(Pessoa novaPessoa) throws ControleVacinasException{
+		 return service.salvar(novaPessoa);
+	}
+	
+	@PUT
+	@Path("atualizar/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public boolean atualizar(Pessoa pessoaEditada) throws ControleVacinasException{
+		 return service.atualizar(pessoaEditada);
 	}
 	
 	@DELETE
 	@Path("excluir/{id}")
-	public boolean excluir(@PathParam("id") int id) throws ControleVacinasException {
-		return service.excluir(id);
+	public boolean excluir(@PathParam("id") int id) throws ControleVacinasException{
+		 return service.excluir(id);
 	}
 	
-	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public boolean atualizar(Pessoa pessoaEditada) throws ControleVacinasException {
-		return service.atualizar(pessoaEditada);
+	@GET
+	@Path("/{id}")
+	public Pessoa consultarPorId(@PathParam("id") int id){
+		 return service.consultarPorId(id);
 	}
 	
 	@GET
 	@Path("/todas")
 	public List<Pessoa> consultarTodas(){
-		return service.listarTodos();
+		 return service.consultarTodas();
 	}
 	
-	
+	@GET 
+	@Path("/pesquisadores")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Pessoa> listarPorPesquisador() {
+		return this.service.listarPorPesquisador();
+		
+	}
 }

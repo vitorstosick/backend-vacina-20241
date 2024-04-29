@@ -1,4 +1,4 @@
-create schema if not exists vacinacao;
+create schema vacinacao;
 
 use vacinacao;
 
@@ -46,8 +46,6 @@ ALTER TABLE pessoa ADD CONSTRAINT pessoa_pais_FK FOREIGN KEY (ID_PAIS) REFERENCE
 
 alter table vacina add column id_pais int;
 alter table vacina add CONSTRAINT 
-vacina_pais_FK FOREIGN KEY (id) REFERENCES pais(id);
+vacina_pais_FK FOREIGN KEY (ID_PAIS) REFERENCES pais(id);
+
  
-select * from Pais;
-select * from pessoa;
-select * from vacina;

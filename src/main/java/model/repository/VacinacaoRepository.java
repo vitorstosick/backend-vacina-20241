@@ -1,5 +1,4 @@
 package model.repository;
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,9 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import model.entities.Pessoa;
-import model.entities.Vacina;
-import model.entities.Vacinacao;
+import model.entity.Pessoa;
+import model.entity.Vacina;
+import model.entity.Vacinacao;
+import model.repository.Banco;
+import model.repository.BaseRepository;
 
 public class VacinacaoRepository implements BaseRepository<Vacinacao> {
 
@@ -172,6 +173,31 @@ public class VacinacaoRepository implements BaseRepository<Vacinacao> {
 			}
 		} catch (SQLException erro){
 			System.out.println("Erro ao consultar todas as vacinações realizadas na pessoa com id" + idPessoa);
+			System.out.println("Erro: " + erro.getMessage());
+		} finally {
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+		return aplicacoes;
+	}
+
+	public ArrayList<Vacinacao> consultarPorIdVacina(int idVacina) {
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		
+		ArrayList<Vacinacao> aplicacoes = new ArrayList<Vacinacao>();
+		ResultSet resultado = null;
+		String query = " SELECT * FROM aplicacao_vacina WHERE id_vacina = " + idVacina;
+		try{
+			resultado = stmt.executeQuery(query);
+
+			while(resultado.next()){
+				Vacinacao aplicacaoVacina = this.converterParaObjeto(resultado);
+				aplicacoes.add(aplicacaoVacina);
+			}
+		} catch (SQLException erro){
+			System.out.println("Erro ao consultar todas as vacinações com doses da vacina " + idVacina);
 			System.out.println("Erro: " + erro.getMessage());
 		} finally {
 			Banco.closeResultSet(resultado);
