@@ -208,12 +208,11 @@ public class VacinaRepository implements BaseRepository<Vacina> {
 			query += " upper (pe.nome) like upper('%" + seletor.getNomePesquisador() +"%')";
 		}
 		
-		if (seletor.getDataInicioPesquisa() != null && seletor.getDataFinalPesquisa() != null) {
+		if ((seletor.getDataInicioPesquisa()) != null && (seletor.getDataFinalPesquisa() != null)) {
 			if (!primeiro) {
 				query += " and ";
 			}
-			
-			query += " v.dataInicioPesquisa BETWEEN '" + seletor.getDataInicioPesquisa() + "' and '" + seletor.getDataFinalPesquisa() + "'";
+			query += " v.data_inicio_pesquisa BETWEEN " + seletor.getDataInicioPesquisa() + " and " + seletor.getDataFinalPesquisa();
 			primeiro = false;
 		}
 		

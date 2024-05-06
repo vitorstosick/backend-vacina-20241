@@ -6,10 +6,13 @@ import java.util.List;
 import exception.ControleVacinasException;
 import jakarta.validation.ValidationException;
 import model.entity.Pessoa;
+import model.entity.Vacina;
 import model.entity.Vacinacao;
 import model.repository.PessoaRepository;
 import model.repository.VacinaRepository;
 import model.repository.VacinacaoRepository;
+import model.seletor.PessoaSeletor;
+
 
 public class PessoaService {
 
@@ -85,5 +88,9 @@ public class PessoaService {
 	
 	public ArrayList<Pessoa> listarPorPesquisador() {
 		return repository.listarPorPerquisador() ;
+	}
+	
+	public List<Pessoa> consultarPorFiltro(PessoaSeletor seletor) {
+		return repository.consultarPorFiltro(seletor);
 	}
 }

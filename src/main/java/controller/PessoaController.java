@@ -14,53 +14,61 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Pessoa;
+import model.seletor.PessoaSeletor;
 import service.PessoaService;
 
 @Path("/pessoa")
 public class PessoaController {
-	
+
 	private PessoaService service = new PessoaService();
-	
+
 	@POST
 	@Path("/inserir")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Pessoa salvar(Pessoa novaPessoa) throws ControleVacinasException{
-		 return service.salvar(novaPessoa);
+	public Pessoa salvar(Pessoa novaPessoa) throws ControleVacinasException {
+		return service.salvar(novaPessoa);
 	}
-	
+
 	@PUT
 	@Path("atualizar/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public boolean atualizar(Pessoa pessoaEditada) throws ControleVacinasException{
-		 return service.atualizar(pessoaEditada);
+	public boolean atualizar(Pessoa pessoaEditada) throws ControleVacinasException {
+		return service.atualizar(pessoaEditada);
 	}
-	
+
 	@DELETE
 	@Path("excluir/{id}")
-	public boolean excluir(@PathParam("id") int id) throws ControleVacinasException{
-		 return service.excluir(id);
+	public boolean excluir(@PathParam("id") int id) throws ControleVacinasException {
+		return service.excluir(id);
 	}
-	
+
 	@GET
 	@Path("/{id}")
-	public Pessoa consultarPorId(@PathParam("id") int id){
-		 return service.consultarPorId(id);
+	public Pessoa consultarPorId(@PathParam("id") int id) {
+		return service.consultarPorId(id);
 	}
-	
+
 	@GET
 	@Path("/todas")
-	public List<Pessoa> consultarTodas(){
-		 return service.consultarTodas();
+	public List<Pessoa> consultarTodas() {
+		return service.consultarTodas();
 	}
-	
-	@GET 
+
+	@GET
 	@Path("/pesquisadores")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Pessoa> listarPorPesquisador() {
 		return this.service.listarPorPesquisador();
-		
+	}
+	
+	@POST
+	@Path("/filtro")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Pessoa>consultarComSeletor (PessoaSeletor seletor) {
+		return this.service.consultarPorFiltro(seletor);	
 	}
 }

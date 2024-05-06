@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import model.entity.Pessoa;
 import model.repository.Banco;
 import model.repository.BaseRepository;
+import model.seletor.PessoaSeletor;
 
 public class PessoaRepository implements BaseRepository<Pessoa> {
 
@@ -217,4 +218,77 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 
 		return listaPessoa;
 	}
+	
+	public ArrayList<Pessoa> consultarPorFiltro(PessoaSeletor seletor) {
+
+		ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
+		Connection conn = Banco.getConnection();
+		Statement stmt = Banco.getStatement(conn);
+		ResultSet resultado = null;
+		boolean primeiro = true;
+
+		String query = " select pe.* from pessoa pe " + " inner join pais p on pe.id = p.id ";
+
+		if (seletor.getNomePessoa() != null) {
+			if (primeiro) {
+				query += " where ";
+			} else {
+				query += " and ";
+			}
+
+			query += " upper(pe.nome) like upper  ('%" + seletor.getNomePessoa() + "%')";
+			primeiro = false;
+
+		}
+
+		if (seletor.getNomePais() != null) {
+			if (primeiro) {
+				query += " where ";
+			} else {
+				query += " and ";
+			}
+
+			query += " upper(p.nome) like upper('%" + seletor.getNomePais() + "%')";
+
+		}
+
+		if (seletor.getDataNascimento() != null) {
+			if (primeiro) {
+				query += " and ";
+			}
+			query += "pe.data_nascimento = " + seletor.getDataNascimento();
+			primeiro = false;
+		}
+			try {
+				resultado = stmt.executeQuery(query);
+				while (resultado.next()) {
+					Pessoa pessoaEntity = new Pessoa();
+					pessoaEntity.setId(resultado.getInt("id"));
+					pessoaEntity.setNome(resultado.getString("nome"));
+					pessoaEntity.setDataNascimento(resultado.getDate("data_nascimento").toLocalDate());
+					pessoaEntity.setSexo(resultado.getString("sexo").charAt(0));
+					pessoaEntity.setCpf(resultado.getString("cpf"));
+					pessoaEntity.setTipo(resultado.getInt("tipo"));
+					PaisRepository paisRepository = new PaisRepository();
+					pessoaEntity.setPaisOrigem(paisRepository.consultarPorId(resultado.getInt("id")));
+					// VacinacaoRepository repository = new VacinacaoRepository();
+					// pessoaEntity.setTodasVacinas(repository.consultarTodasVacinasPorPessoa(pessoaEntity.getId()));
+					pessoas.add(pessoaEntity);
+				}
+
+			} catch (SQLException e) {
+				System.out.println("ERRO AO CONSULTAR TODAS AS PESSOAS SELETO!");
+				System.out.println("ERRO: " + e.getMessage());
+			} finally {
+				Banco.closeResultSet(resultado);
+				Banco.closeStatement(stmt);
+				Banco.closeConnection(conn);
+			}
+
+			return pessoas;
+
+		
+
+	}
+
 }
