@@ -13,8 +13,8 @@ import model.seletor.VacinaSeletor;
 public class VacinaService {
 
 	private VacinaRepository repository = new VacinaRepository();
-	
-	public Vacina salvar(Vacina novaVacina){
+
+	public Vacina salvar(Vacina novaVacina) {
 		return repository.salvar(novaVacina);
 	}
 
@@ -25,11 +25,11 @@ public class VacinaService {
 	public boolean excluir(int id) throws ControleVacinasException {
 		VacinacaoRepository vacinacaoRepository = new VacinacaoRepository();
 		ArrayList<Vacinacao> aplicacoesDaVacina = vacinacaoRepository.consultarPorIdVacina(id);
-		
-		if(aplicacoesDaVacina.size() > 0) {
+
+		if (aplicacoesDaVacina.size() > 0) {
 			throw new ControleVacinasException("Vacina não pode ser excluída, pois já foi aplicada");
 		}
-		
+
 		return repository.excluir(id);
 	}
 
@@ -40,8 +40,16 @@ public class VacinaService {
 	public List<Vacina> consultarTodas() {
 		return repository.consultarTodos();
 	}
-	
+
 	public List<Vacina> consultarComFiltros(VacinaSeletor seletor) {
 		return repository.consultarComFiltros(seletor);
+	}
+
+	public int contarTodosRegistro(VacinaSeletor seletor) {
+		return this.repository.contarTotalDeRegistro(seletor);
+	}
+
+	public int contarPaginas(VacinaSeletor seletor) {
+		return this.repository.contarPaginas(seletor);
 	}
 }

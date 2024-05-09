@@ -2,15 +2,27 @@ package model.seletor;
 
 import java.time.LocalDate;
 
-public class VacinaSeletor {
+public class VacinaSeletor extends BaseSeletor {
 
 	private String nomePais;
-	private String nomePesquisador;
 	private String nomeVacina;
+	private String nomePesquisador;
 	private LocalDate dataInicioPesquisa;
 	private LocalDate dataFinalPesquisa;
 
+	public VacinaSeletor(String nomePais, String nomeVacina, String nomePesquisador, LocalDate dataInicioPesquisa,
+			LocalDate dataFinalPesquisa) {
+		super();
+		this.nomePais = nomePais;
+		this.nomeVacina = nomeVacina;
+		this.nomePesquisador = nomePesquisador;
+		this.dataInicioPesquisa = dataInicioPesquisa;
+		this.dataFinalPesquisa = dataFinalPesquisa;
+	}
+
 	public VacinaSeletor() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getNomePais() {
@@ -21,20 +33,20 @@ public class VacinaSeletor {
 		this.nomePais = nomePais;
 	}
 
-	public String getNomePesquisador() {
-		return nomePesquisador;
-	}
-
-	public void setNomePesquisador(String nomePesquisador) {
-		this.nomePesquisador = nomePesquisador;
-	}
-
 	public String getNomeVacina() {
 		return nomeVacina;
 	}
 
 	public void setNomeVacina(String nomeVacina) {
 		this.nomeVacina = nomeVacina;
+	}
+
+	public String getNomePesquisador() {
+		return nomePesquisador;
+	}
+
+	public void setNomePesquisador(String nomePesquisador) {
+		this.nomePesquisador = nomePesquisador;
 	}
 
 	public LocalDate getDataInicioPesquisa() {

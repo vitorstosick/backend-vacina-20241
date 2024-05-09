@@ -62,4 +62,20 @@ public class VacinaController {
 	public List<Vacina> consultarTodas(){
 		 return service.consultarTodas();
 	}
+	
+	@Path("/contar-pagina")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public int contarPaginas(VacinaSeletor seletor) {
+		return this.service.contarPaginas(seletor);
+	}
+	
+	@Path("/contar")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public int contarTotalDeRegistro(VacinaSeletor seletor) {
+		return this.service.contarTodosRegistro(seletor);
+	}
 }
