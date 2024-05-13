@@ -90,7 +90,7 @@ public class PessoaService {
 		return repository.listarPorPerquisador() ;
 	}
 	
-	public List<Pessoa> consultarPorFiltro(PessoaSeletor seletor) {
+	public ArrayList<Pessoa>consultarPorFiltro(PessoaSeletor seletor) {
 		return repository.consultarPorFiltro(seletor);
 	}
 }

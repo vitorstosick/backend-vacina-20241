@@ -178,14 +178,16 @@ public class VacinaRepository implements BaseRepository<Vacina> {
 				+ " inner join pessoa pe on v.id_pesquisador = pe.id  ";
 
 		boolean primeiro = true;
-		if (seletor.getNomeVacina() != null) {
+		if (seletor.getNome() != null) {
 			if (primeiro) {
-				query += " WHERE ";
+				query += " where ";
 			} else {
-				query += " AND ";
+				query += " and ";
 			}
-			query += "upper(v.nome) LIKE UPPER('%" + seletor.getNomeVacina() + "%')";
+
+			query += " upper(v.nome) like upper  ('%" + seletor.getNome() + "%')";
 			primeiro = false;
+
 		}
 
 		if (seletor.getNomePais() != null) {
@@ -207,12 +209,28 @@ public class VacinaRepository implements BaseRepository<Vacina> {
 			query += " upper (pe.nome) like upper('%" + seletor.getNomePesquisador() + "%')";
 		}
 
-		if ((seletor.getDataInicioPesquisa()) != null && (seletor.getDataFinalPesquisa() != null)) {
-			if (!primeiro) {
+		if (seletor.getDataInicioPesquisa() != null && seletor.getDataFinalPesquisa() != null) {
+			if (primeiro) {
+				query += " and ";
+			} else {
+				query += " where ";
+			}
+
+			query += " v.data_inicio_pesquisa BETWEEN '" + seletor.getDataInicioPesquisa() + "' and '"
+					+ seletor.getDataFinalPesquisa() + "'";
+			primeiro = false;
+		} else if (seletor.getDataInicioPesquisa() != null) {
+			if (primeiro) {
 				query += " and ";
 			}
-			query += " v.data_inicio_pesquisa BETWEEN " + seletor.getDataInicioPesquisa() + " and "
-					+ seletor.getDataFinalPesquisa();
+			query += "v.data_inicio_pesquisa >= '" + seletor.getDataInicioPesquisa() + "'";
+			primeiro = false;
+
+		} else if (seletor.getDataFinalPesquisa() != null) {
+			if (primeiro) {
+				query = " and ";
+			}
+			query += "v.data_inicio_pesquisa <= '" + seletor.getDataFinalPesquisa() + "'";
 			primeiro = false;
 		}
 
@@ -247,14 +265,14 @@ public class VacinaRepository implements BaseRepository<Vacina> {
 	private String incluirFiltros(VacinaSeletor seletor, String query) {
 		boolean primeiro = true;
 
-		if (seletor.getNomeVacina() != null) {
+		if (seletor.getNome() != null) {
 			if (primeiro) {
 				query += " where ";
 			} else {
 				query += " and ";
 			}
 
-			query += " upper(v.nome) like upper  ('%" + seletor.getNomeVacina() + "%')";
+			query += " upper(v.nome) like upper  ('%" + seletor.getNome() + "%')";
 			primeiro = false;
 
 		}
@@ -287,21 +305,21 @@ public class VacinaRepository implements BaseRepository<Vacina> {
 				query += " where ";
 			}
 
-			query += " v.dataInicioPesquisa BETWEEN '" + seletor.getDataInicioPesquisa() + "' and '"
+			query += " v.data_inicio_pesquisa BETWEEN '" + seletor.getDataInicioPesquisa() + "' and '"
 					+ seletor.getDataFinalPesquisa() + "'";
 			primeiro = false;
 		} else if (seletor.getDataInicioPesquisa() != null) {
 			if (primeiro) {
 				query += " and ";
 			}
-			query += "v.dataInicioPesquisa >= '" + seletor.getDataInicioPesquisa() + "'";
+			query += "v.data_inicio_pesquisa >= '" + seletor.getDataInicioPesquisa() + "'";
 			primeiro = false;
 
 		} else if (seletor.getDataFinalPesquisa() != null) {
 			if (primeiro) {
 				query = " and ";
 			}
-			query += "v.dataInicioPesquisa <= '" + seletor.getDataFinalPesquisa() + "'";
+			query += "v.data_inicio_pesquisa <= '" + seletor.getDataFinalPesquisa() + "'";
 			primeiro = false;
 		}
 
@@ -316,14 +334,10 @@ public class VacinaRepository implements BaseRepository<Vacina> {
 		ResultSet resultado = null;
 		int totalDeRegistro = 0;
 
-		String query = " select COUNT(v.*) from vacina.vacinas v " + " inner join paises p on v.id = p.id "
-				+ " inner join pessoa pe on v.id_pessoa = pe.id_pessoa  ";
+		String query = " select COUNT(v.id_vacina) from vacina v " + " inner join pais p on v.id = p.id"
+				+ " inner join pessoa pe on v.id_pessoa = pe.id  ";
 
 		query = incluirFiltros(seletor, query);
-
-		if (seletor.temPaginacao()) {
-			query += " limit " + seletor.getLimite() + " offset " + seletor.getOffset();
-		}
 
 		try {
 			resultado = stmt.executeQuery(query);

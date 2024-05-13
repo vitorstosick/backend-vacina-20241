@@ -8,18 +8,39 @@ public class PessoaSeletor {
 	private String cpf;
 	private String nomePais;
 	private LocalDate dataNascimento;
+	private char sexoPessoa;
+	private int tipoPessoa;
 
 	public PessoaSeletor() {
 		super();
 
 	}
 
-	public PessoaSeletor(String nomePessoa, String cpf, String nomePais, LocalDate dataNascimento) {
+	public PessoaSeletor(String nomePessoa, String cpf, String nomePais, LocalDate dataNascimento, char sexoPessoa,
+			int tipoPessoa) {
 		super();
 		this.nomePessoa = nomePessoa;
 		this.cpf = cpf;
 		this.nomePais = nomePais;
 		this.dataNascimento = dataNascimento;
+		this.sexoPessoa = sexoPessoa;
+		this.tipoPessoa = tipoPessoa;
+	}
+
+	public char getSexoPessoa() {
+		return sexoPessoa;
+	}
+
+	public void setSexoPessoa(char sexoPessoa) {
+		this.sexoPessoa = sexoPessoa;
+	}
+
+	public int getTipoPessoa() {
+		return tipoPessoa;
+	}
+
+	public void setTipoPessoa(int tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 
 	public String getNomePessoa() {

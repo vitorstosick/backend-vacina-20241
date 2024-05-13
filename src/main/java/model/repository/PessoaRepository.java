@@ -173,7 +173,15 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 
 		try {
 			ResultSet resultado = stmt.executeQuery(query);
-			cpfJaUtilizado = (resultado.getInt(1) > 0);
+
+			// Move o cursor para a primeira linha (se houver)
+			if (resultado.next()) {
+				cpfJaUtilizado = (resultado.getInt(1) > 0);
+			} else {
+				// Não há resultados, defina cpfJaUtilizado como falso ou faça outra ação
+				// apropriada
+				cpfJaUtilizado = false;
+			}
 		} catch (SQLException e) {
 			System.out.println("Erro ao consultar CPF. Causa: " + e.getMessage());
 		}
@@ -218,7 +226,7 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 
 		return listaPessoa;
 	}
-	
+
 	public ArrayList<Pessoa> consultarPorFiltro(PessoaSeletor seletor) {
 
 		ArrayList<Pessoa> pessoas = new ArrayList<Pessoa>();
@@ -227,7 +235,7 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 		ResultSet resultado = null;
 		boolean primeiro = true;
 
-		String query = " select pe.* from pessoa pe " + " inner join pais p on pe.id = p.id ";
+		String query = "select pe.* from pessoa pe " + " inner join pais p on pe.ID_PAIS = p.id ";
 
 		if (seletor.getNomePessoa() != null) {
 			if (primeiro) {
@@ -256,38 +264,45 @@ public class PessoaRepository implements BaseRepository<Pessoa> {
 			if (primeiro) {
 				query += " and ";
 			}
-			query += "pe.data_nascimento = " + seletor.getDataNascimento();
+			query += "pe.data_nascimento = '" + seletor.getDataNascimento() + "'";
 			primeiro = false;
 		}
-			try {
-				resultado = stmt.executeQuery(query);
-				while (resultado.next()) {
-					Pessoa pessoaEntity = new Pessoa();
-					pessoaEntity.setId(resultado.getInt("id"));
-					pessoaEntity.setNome(resultado.getString("nome"));
-					pessoaEntity.setDataNascimento(resultado.getDate("data_nascimento").toLocalDate());
-					pessoaEntity.setSexo(resultado.getString("sexo").charAt(0));
-					pessoaEntity.setCpf(resultado.getString("cpf"));
-					pessoaEntity.setTipo(resultado.getInt("tipo"));
-					PaisRepository paisRepository = new PaisRepository();
-					pessoaEntity.setPaisOrigem(paisRepository.consultarPorId(resultado.getInt("id")));
-					// VacinacaoRepository repository = new VacinacaoRepository();
-					// pessoaEntity.setTodasVacinas(repository.consultarTodasVacinasPorPessoa(pessoaEntity.getId()));
-					pessoas.add(pessoaEntity);
-				}
 
-			} catch (SQLException e) {
-				System.out.println("ERRO AO CONSULTAR TODAS AS PESSOAS SELETO!");
-				System.out.println("ERRO: " + e.getMessage());
-			} finally {
-				Banco.closeResultSet(resultado);
-				Banco.closeStatement(stmt);
-				Banco.closeConnection(conn);
+		if (seletor.getCpf() != null) {
+			if (primeiro) {
+				query += " and ";
 			}
 
-			return pessoas;
+			query += "pe.cpf =  '" + seletor.getCpf() + "'";
+		}
 
-		
+		try {
+			resultado = stmt.executeQuery(query);
+			if (resultado.next()) {
+				Pessoa pessoaEntity = new Pessoa();
+				pessoaEntity.setId(resultado.getInt("id"));
+				pessoaEntity.setNome(resultado.getString("nome"));
+				pessoaEntity.setDataNascimento(resultado.getDate("data_nascimento").toLocalDate());
+				pessoaEntity.setSexo(resultado.getString("sexo").charAt(0));
+				pessoaEntity.setCpf(resultado.getString("cpf"));
+				pessoaEntity.setTipo(resultado.getInt("tipo"));
+				PaisRepository paisRepository = new PaisRepository();
+				pessoaEntity.setPaisOrigem(paisRepository.consultarPorId(resultado.getInt("id")));
+				// VacinacaoRepository repository = new VacinacaoRepository();
+				// pessoaEntity.setTodasVacinas(repository.consultarTodasVacinasPorPessoa(pessoaEntity.getId()));
+				pessoas.add(pessoaEntity);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("ERRO AO CONSULTAR TODAS AS PESSOAS SELETO!");
+			System.out.println("ERRO: " + e.getMessage());
+		} finally {
+			Banco.closeResultSet(resultado);
+			Banco.closeStatement(stmt);
+			Banco.closeConnection(conn);
+		}
+
+		return pessoas;
 
 	}
 

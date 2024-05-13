@@ -68,7 +68,7 @@ public class PessoaController {
 	@Path("/filtro")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Pessoa>consultarComSeletor (PessoaSeletor seletor) {
+	public List<Pessoa>consultarPorFiltro (PessoaSeletor seletor) {
 		return this.service.consultarPorFiltro(seletor);	
 	}
 }
