@@ -2,27 +2,38 @@ package model.seletor;
 
 import java.time.LocalDate;
 
-public class VacinaSeletor extends BaseSeletor {
-
+public class VacinaSeletor extends BaseSeletor{
+	
+	private String nome;
 	private String nomePais;
-	private String nomeVacina;
 	private String nomePesquisador;
+	private int estagio;
 	private LocalDate dataInicioPesquisa;
 	private LocalDate dataFinalPesquisa;
-
-	public VacinaSeletor(String nomePais, String nomeVacina, String nomePesquisador, LocalDate dataInicioPesquisa,
-			LocalDate dataFinalPesquisa) {
-		super();
-		this.nomePais = nomePais;
-		this.nomeVacina = nomeVacina;
-		this.nomePesquisador = nomePesquisador;
-		this.dataInicioPesquisa = dataInicioPesquisa;
-		this.dataFinalPesquisa = dataFinalPesquisa;
-	}
+	private double media;
 
 	public VacinaSeletor() {
 		super();
-		// TODO Auto-generated constructor stub
+	}
+
+	public VacinaSeletor(String nome, String nomePais, String nomePesquisador, int estagio,
+			LocalDate dataInicioPesquisa, LocalDate dataFinalPesquisa, double media) {
+		super();
+		this.nome = nome;
+		this.nomePais = nomePais;
+		this.nomePesquisador = nomePesquisador;
+		this.estagio = estagio;
+		this.dataInicioPesquisa = dataInicioPesquisa;
+		this.dataFinalPesquisa = dataFinalPesquisa;
+		this.media = media;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getNomePais() {
@@ -33,20 +44,20 @@ public class VacinaSeletor extends BaseSeletor {
 		this.nomePais = nomePais;
 	}
 
-	public String getNomeVacina() {
-		return nomeVacina;
-	}
-
-	public void setNomeVacina(String nomeVacina) {
-		this.nomeVacina = nomeVacina;
-	}
-
 	public String getNomePesquisador() {
 		return nomePesquisador;
 	}
 
 	public void setNomePesquisador(String nomePesquisador) {
 		this.nomePesquisador = nomePesquisador;
+	}
+
+	public int getEstagio() {
+		return estagio;
+	}
+
+	public void setEstagio(int estagio) {
+		this.estagio = estagio;
 	}
 
 	public LocalDate getDataInicioPesquisa() {
@@ -64,5 +75,24 @@ public class VacinaSeletor extends BaseSeletor {
 	public void setDataFinalPesquisa(LocalDate dataFinalPesquisa) {
 		this.dataFinalPesquisa = dataFinalPesquisa;
 	}
+	
+	public double getMedia() {
+		return media;
+	}
 
+	public void setMedia(double media) {
+		this.media = media;
+	}
+
+	// Verifica se este seletor tem algum campo preenchido
+	// @return true caso ao menos um dos atributos tenho sido preenchido
+	public boolean temFiltro() {
+		return (this.nome != null && this.nome.trim().length() > 0)
+				|| (this.nomePais != null && this.nomePais.trim().length() > 0)
+				|| (this.nomePesquisador != null && this.nomePesquisador.trim().length() > 0)
+				|| (this.estagio > 0)
+				|| (this.dataInicioPesquisa != null)
+				|| (this.dataFinalPesquisa != null)
+				|| (this.media > 0);
+	}
 }

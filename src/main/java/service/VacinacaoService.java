@@ -12,6 +12,7 @@ import model.entity.Vacinacao;
 import model.repository.PessoaRepository;
 import model.repository.VacinaRepository;
 import model.repository.VacinacaoRepository;
+import model.seletor.VacinacaoSeletor;
 
 public class VacinacaoService {
 
@@ -106,5 +107,9 @@ public class VacinacaoService {
 	
 	public List<Vacinacao> consultarPorIdPessoa(int idPessoa) {
 		return vacinacaoRepository.consultarPorIdPessoa(idPessoa);
+	}
+	
+	public List<Vacinacao> consultarComSeletor(VacinacaoSeletor seletor){
+		return vacinacaoRepository.consultarComSeletor(seletor);
 	}
 }

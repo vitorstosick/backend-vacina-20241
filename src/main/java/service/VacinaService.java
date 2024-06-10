@@ -48,7 +48,7 @@ public class VacinaService {
 	public int contarTodosRegistro(VacinaSeletor seletor) {
 		return this.repository.contarTotalDeRegistro(seletor);
 	}
-
+	
 	public int contarPaginas(VacinaSeletor seletor) {
 		return this.repository.contarPaginas(seletor);
 	}

@@ -13,6 +13,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import model.entity.Vacinacao;
+import model.seletor.VacinacaoSeletor;
 import service.VacinacaoService;
 
 @Path("/vacinacao")
@@ -58,5 +59,11 @@ public class VacinacaoController {
 	@Path("/pessoa/{idPessoa}")
 	public List<Vacinacao> consultarPorIdPessoa(@PathParam("idPessoa") int idPessoa){
 		 return service.consultarPorIdPessoa(idPessoa);
+	}
+	
+	@POST
+	@Path("/filtro")
+	public List<Vacinacao> consultarComSeletor(VacinacaoSeletor seletor){
+		return service.consultarComSeletor(seletor);
 	}
 }
